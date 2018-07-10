@@ -39,6 +39,15 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     mLabel.text = label;
     mLabel.alignment = ofxDatGuiAlignment::LEFT;
+    midiMode = false;
+    midiMap = false;
+    mappingString = "";
+    
+    inputConnection = new WireConnection;
+    outputConnection = new WireConnection;
+    
+    tx = 0;
+    ty = 0;
 }
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
@@ -353,6 +362,10 @@ void ofxDatGuiComponent::update(bool acceptEvents)
     if (acceptEvents && mEnabled && mVisible){
         bool mp = ofGetMousePressed();
         ofPoint mouse = ofPoint(ofGetMouseX() - mMask.x, ofGetMouseY() - mMask.y);
+        
+        mouse.x = mouse.x - tx;
+        mouse.y = mouse.y - ty;
+        
         if (hitTest(mouse)){
             if (!mMouseOver){
                 onMouseEnter(mouse);
@@ -400,6 +413,19 @@ void ofxDatGuiComponent::draw()
     ofPopStyle();
 }
 
+void ofxDatGuiComponent::drawTranslated(float transX, float transY)
+{
+    tx = transX;
+    ty = transY;
+    if (this->getIsExpanded()) {
+        for(int i=0; i<children.size(); i++) {
+            children[i]->tx = transX;
+            children[i]->ty = transY;
+        }
+    }
+    draw();
+}
+
 void ofxDatGuiComponent::drawBackground()
 {
     ofFill();
@@ -439,6 +465,8 @@ void ofxDatGuiComponent::drawColorPicker() { }
 
 bool ofxDatGuiComponent::hitTest(ofPoint m)
 {
+//    m.x -= tx;
+//    m.y -= ty;
     if (mMask.height > 0 && (m.y < 0 || m.y > mMask.height)) return false;
     return (m.x>=x && m.x<= x+mStyle.width && m.y>=y && m.y<= y+mStyle.height);
 }
@@ -502,4 +530,79 @@ void ofxDatGuiComponent::onWindowResized(ofResizeEventArgs &e)
     onWindowResized();
 }
 
+void ofxDatGuiComponent::toggleMidiMode(){
+    midiMode = !midiMode;
+}
 
+bool ofxDatGuiComponent::getMidiMode()
+{
+    return midiMode;
+}
+
+void ofxDatGuiComponent::toggleMidiMap(bool mm)
+{
+    midiMap = mm;
+}
+
+bool ofxDatGuiComponent::getMidiMap()
+{
+    return midiMap;
+}
+
+
+void ofxDatGuiComponent::setMappingString(string mapping)
+{
+    mappingString = mapping;
+}
+
+string ofxDatGuiComponent::getMappingString()
+{
+    return mappingString;
+}
+
+float ofxDatGuiComponent::getComponentScale()
+{
+    return 1.0;
+}
+
+void ofxDatGuiComponent::setComponentScale(double scale)
+{
+
+}
+
+ofxDatGuiComponent * ofxDatGuiComponent::getInputSelected(int x, int y)
+{
+    ofPoint pos = inputConnection->getWireConnectionPos();
+    float dist = ofDist(pos.x, pos.y, x, y);
+    return dist < 15 ? this : nullptr;
+}
+ofxDatGuiComponent * ofxDatGuiComponent::getOutputSelected(int x, int y)
+{
+    //float dist = ofDist(outputPosition.x, outputPosition.y, x, y);
+    //return dist < 15 ? this : nullptr;
+    return this;
+}
+
+WireConnection * ofxDatGuiComponent::getInputConnection(int x, int y)
+{
+    ofPoint pos = inputConnection->getWireConnectionPos();
+    float dist = ofDist(pos.x, pos.y, x, y);
+    return dist < 15 ? inputConnection : nullptr;
+}
+
+WireConnection * ofxDatGuiComponent::getOutputConnection(int x, int y)
+{
+    ofPoint pos = outputConnection->getWireConnectionPos();
+    float dist = ofDist(pos.x, pos.y, x, y);
+    return dist < 15.0 ? outputConnection : nullptr;
+}
+
+//ofPoint ofxDatGuiComponent::getInput()
+//{
+//    return 0;
+//}
+//
+//ofPoint ofxDatGuiComponent::getOutput()
+//{
+//    return 0;
+//}

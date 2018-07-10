@@ -24,8 +24,8 @@
 #include "ofMain.h"
 #include "ofxSmartFont.h"
 
-#define RETINA_MIN_WIDTH 2560
-#define RETINA_MIN_HEIGHT 1600
+#define RETINA_MIN_WIDTH 1440
+#define RETINA_MIN_HEIGHT 900
 
 inline static bool ofxDatGuiIsRetina()
 {
@@ -49,24 +49,24 @@ class ofxDatGuiTheme{
         void init()
         {
             if (ofxDatGuiIsRetina()){
-                font.size *=2;
-                stripe.width *=2;
-                layout.width *=2;
-                layout.height *=2;
-                layout.padding *=2;
-                layout.vMargin *=2;
-                layout.iconSize *=2;
-                layout.labelWidth *=2;
-                layout.labelMargin *=2;
-                layout.graph.height *=2;
-                layout.pad2d.height *=2;
-                layout.pad2d.ballSize *=2;
-                layout.pad2d.lineWeight *=2;
-                layout.matrix.height *=2;
-                layout.matrix.buttonSize *=2;
-                layout.matrix.buttonPadding *=2;
-                layout.colorPicker.rainbowWidth *=2;
-                layout.textInput.highlightPadding *=2;
+                font.size *=2.5;
+                stripe.width *=1.5;
+                //layout.width *=1.5;
+                //layout.height *=1.5;
+                layout.padding *=1.5;
+                layout.vMargin *=1.5;
+                layout.iconSize *=1.5;
+                layout.labelWidth *=1.5;
+                layout.labelMargin *=1.5;
+                layout.graph.height *=1.5;
+                layout.pad2d.height *=1.5;
+                layout.pad2d.ballSize *=1.5;
+                layout.pad2d.lineWeight *=1.5;
+                layout.matrix.height *=1.5;
+                layout.matrix.buttonSize *=1.5;
+                layout.matrix.buttonPadding *=1.5;
+                layout.colorPicker.rainbowWidth *=1.5;
+                layout.textInput.highlightPadding *=1.5;
             }
             icon.radioOn->load(icon.radioOnPath);
             icon.radioOff->load(icon.radioOffPath);
@@ -173,15 +173,15 @@ class ofxDatGuiTheme{
         struct {
         
         // general rules that are shared by all components //
-            float width = 270.0f;
-            float height = 26.0f;
+            float width = 600.0f;
+            float height = 35.0f;
             float padding = 2.0f;
-            float vMargin = 1.0f; // vertical spacing between gui components //
+            float vMargin = 0.0f; // vertical spacing between gui components //
             float iconSize = 10.0f;
-            float labelWidth = 95.0f;
-            float labelMargin = 12.0f;
+            float labelWidth = 150.0f;
+            float labelMargin = 5.0f;
             float breakHeight = 3.0f;
-            bool upperCaseLabels = true;
+            bool upperCaseLabels = false;
             
         // component specific rules & settings //
         
@@ -221,8 +221,8 @@ class ofxDatGuiTheme{
         static string AssetPath;
     
         struct {
-            int size = 6;
-            string file = AssetPath + "ofxbraitsch/fonts/Verdana.ttf";
+            int size = 7;
+            string file = AssetPath + "ofxbraitsch/fonts/Roboto-Thin.ttf";
             shared_ptr<ofxSmartFont> ptr;
         } font;
     

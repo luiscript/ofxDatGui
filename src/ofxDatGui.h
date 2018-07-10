@@ -23,6 +23,7 @@
 #pragma once
 #include "ofxDatGuiGroups.h"
 #include "ofxDatGuiControls.h"
+#include "wireConnection.hpp"
 
 class ofxDatGui : public ofxDatGuiInteractiveObject
 {
@@ -49,8 +50,21 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void setTheme(ofxDatGuiTheme* t, bool applyImmediately = false);
         void setAutoDraw(bool autodraw, int priority = 0);
         void setLabelAlignment(ofxDatGuiAlignment align);
+        void setTranslation(float, float);
         static void setAssetPath(string path);
         static string getAssetPath();
+    
+        void setItems(vector<ofxDatGuiComponent*>);
+    
+        void toggleMidiMode();
+        void resetMidiMap();
+        void deleteItems();
+        ofxDatGuiComponent * getInputComponent(int x, int y);
+        ofxDatGuiComponent * getOutputComponent(int x, int y);
+    
+        WireConnection * testInputConnection(int, int);
+        WireConnection * testOutputConnection(int,int);
+    
     
         int getWidth();
         int getHeight();
@@ -58,7 +72,9 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool getVisible();
         bool getAutoDraw();
         bool getMouseDown();
+        bool getEnabled();
         ofPoint getPosition();
+        vector<ofxDatGuiComponent *> getItems();
     
         ofxDatGuiHeader* addHeader(string label = "", bool draggable = true);
         ofxDatGuiFooter* addFooter();
@@ -96,7 +112,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiValuePlotter* getValuePlotter(string label, string folder = "");
         ofxDatGuiFolder* getFolder(string label);
         ofxDatGuiDropdown* getDropdown(string label);
-    
+     float translationX;
     private:
     
         int mIndex;
@@ -115,6 +131,10 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool mWidthChanged;
         bool mThemeChanged;
         bool mAlignmentChanged;
+    
+        float translationY;
+    
+    
         ofColor mGuiBackground;
     
         ofPoint mPosition;
@@ -152,5 +172,4 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void on2dPadEventCallback(ofxDatGui2dPadEvent e);
         void onColorPickerEventCallback(ofxDatGuiColorPickerEvent e);
         void onMatrixEventCallback(ofxDatGuiMatrixEvent e);
-
 };

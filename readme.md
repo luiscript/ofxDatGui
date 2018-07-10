@@ -1,4 +1,6 @@
-##ofxDatGui
+## ofxDatGui ##
+
+This fork is tweaked to work with [ofxDarkKnight](https://github.com/luiscript/ofxDarkKnight/) and is no longer compatible with the original source. 
 
 **ofxDatGui** is a **simple to use**, fully customizable, high-resolution graphical user interface for [openFrameworks](http://openframeworks.cc/) inspired by the popular JavaScript [datgui](http://workshop.chromeexperiments.com/examples/gui/) interface.  
 

@@ -22,6 +22,7 @@
 
 #pragma once
 #include "ofxDatGuiIntObject.h"
+#include "wireConnection.hpp"
 
 class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
 {
@@ -29,7 +30,6 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
     
         ofxDatGuiComponent(string label);
         virtual ~ofxDatGuiComponent();
-    
         int     getX();
         int     getY();
         void    setIndex(int index);
@@ -72,7 +72,20 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
     
         vector<ofxDatGuiComponent*> children;
     
+        ofxDatGuiComponent * getInputSelected(int x, int y);
+        ofxDatGuiComponent * getOutputSelected(int x, int y);
+        ofPoint getInput();
+        ofPoint getOutput();
+    
+        WireConnection * inputConnection;
+        WireConnection * outputConnection;
+    
+        WireConnection * getInputConnection(int, int);
+        WireConnection * getOutputConnection(int, int);
+    
         virtual void draw();
+        void drawTranslated(float, float);
+        void drawTranslated();
         virtual void update(bool acceptEvents = true);
         virtual bool hitTest(ofPoint m);
 
@@ -86,7 +99,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         virtual bool getIsExpanded();
         virtual void drawColorPicker();
 
-        virtual void onFocus();    
+        virtual void onFocus();
         virtual void onFocusLost();
         virtual void onWindowResized();
         virtual void onKeyPressed(int key);
@@ -100,10 +113,25 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
 
         static const ofxDatGuiTheme* getTheme();
     
+        void toggleMidiMode();
+        void toggleMidiMap(bool);
+        bool getMidiMode();
+        bool getMidiMap();
+    
+        virtual float getComponentScale();
+        virtual void setComponentScale(double);
+    
+        void setMappingString(string);
+        string getMappingString();
+    
+        float tx;
+        float ty;
     protected:
     
         int x;
         int y;
+    
+    
         int mIndex;
         string mName;
         bool mFocused;
@@ -115,6 +143,10 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofxDatGuiType mType;
         ofxDatGuiAnchor mAnchor;
         shared_ptr<ofxSmartFont> mFont;
+    
+        bool midiMode;
+        bool midiMap;
+        string mappingString;
     
         struct{
             float width;

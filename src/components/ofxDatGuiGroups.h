@@ -100,11 +100,11 @@ class ofxDatGuiGroup : public ofxDatGuiButton {
                         ofDrawRectangle(x, y+mHeight, mStyle.width, mStyle.vMargin);
                     }
                     ofSetColor(mIcon.color);
-                    mIconOpen->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+                    mIconOpen->draw(x+mIcon.x, y+mIcon.y/2, mIcon.size, mIcon.size);
                     for(int i=0; i<children.size(); i++) children[i]->drawColorPicker();
                 }   else{
                     ofSetColor(mIcon.color);
-                    mIconClosed->draw(x+mIcon.x, y+mIcon.y, mIcon.size, mIcon.size);
+                    mIconClosed->draw(x+mIcon.x, y+mIcon.y/2, mIcon.size, mIcon.size);
                 }
                 ofPopStyle();
             }

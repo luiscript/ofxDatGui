@@ -31,6 +31,8 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         {
             mDraggable = draggable;
             setTheme(ofxDatGuiComponent::getTheme());
+            //inputPosition.x = getX() - 24;
+            //inputPosition.y = getY() + 15;
         }
     
         void setTheme(const ofxDatGuiTheme* theme)
@@ -89,7 +91,6 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
     private:
         bool mDraggable;
         ofPoint mDragOffset;
-
 };
 
 class ofxDatGuiFooter : public ofxDatGuiButton {
@@ -132,6 +133,7 @@ class ofxDatGuiFooter : public ofxDatGuiButton {
     
         void setExpanded(bool expanded)
         {
+            
             mGuiExpanded = expanded;
             if (mGuiExpanded){
                 setLabel(mLabelExpanded);

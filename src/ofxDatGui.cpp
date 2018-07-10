@@ -29,12 +29,16 @@ ofxDatGui::ofxDatGui(int x, int y)
 {
     mPosition.x = x;
     mPosition.y = y;
+    translationX = 0;
+    translationY = 0;
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     init();
 }
 
 ofxDatGui::ofxDatGui(ofxDatGuiAnchor anchor)
 {
+    translationX = 0;
+    translationY = 0;
     init();
     mAnchor = anchor;
     anchorGui();
@@ -68,8 +72,8 @@ void ofxDatGui::init()
     mRowSpacing = ofxDatGuiComponent::getTheme()->layout.vMargin;
     mGuiBackground = ofxDatGuiComponent::getTheme()->color.guiBackground;
     
-// enable autodraw by default //
-    setAutoDraw(true, mGuis.size());
+// disable autodraw by default //
+    setAutoDraw(false, mGuis.size());
     
 // assign focus to this newly created gui //
     mActiveGui = this;
@@ -205,6 +209,11 @@ bool ofxDatGui::getMouseDown()
     return mMouseDown;
 }
 
+bool ofxDatGui::getEnabled()
+{
+    return mEnabled;
+}
+
 void ofxDatGui::setLabelAlignment(ofxDatGuiAlignment align)
 {
     mAlignment = align;
@@ -224,6 +233,7 @@ int ofxDatGui::getHeight()
 ofPoint ofxDatGui::getPosition()
 {
     return ofPoint(mPosition.x, mPosition.y);
+    //return ofPoint(mPosition.x - translationX, mPosition.y - translationY);
 }
 
 void ofxDatGui::setAssetPath(string path)
@@ -693,7 +703,7 @@ void ofxDatGui::onSliderEventCallback(ofxDatGuiSliderEvent e)
     if (sliderEventCallback != nullptr) {
         sliderEventCallback(e);
     }   else{
-        ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
+        //ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
     }
 }
 
@@ -845,6 +855,8 @@ void ofxDatGui::update()
     // check for gui focus change //
     if (ofGetMousePressed() && mActiveGui->mMoving == false){
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+        mouse.x -= translationX;
+        mouse.y -= translationY;
         for (int i=mGuis.size()-1; i>-1; i--){
         // ignore guis that are invisible //
             if (mGuis[i]->getVisible() && mGuis[i]->hitTest(mouse)){
@@ -876,19 +888,23 @@ void ofxDatGui::update()
                     // track that we're moving to force preserve focus //
                             mMoving = true;
                             ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
+                            mouse.x -= translationX;
+                            mouse.y -= translationY;
                             moveGui(mouse - mGuiHeader->getDragOffset());
                         }
-                    }   else if (items[i]->getIsExpanded()){
+                    }
+                    else if (items[i]->getIsExpanded()){
                     // check if one of its children has focus //
                         for (int j=0; j<items[i]->children.size(); j++) {
                             if (items[i]->children[j]->getFocused()){
-                                hitComponent = true;
-                                mMouseDown = items[i]->children[j]->getMouseDown();
+                                //hitComponent = true;
+                                //mMouseDown = items[i]->children[j]->getMouseDown();
                                 break;
                             }
                         }
                     }
-                }   else{
+                }
+                else{
             // update component but ignore mouse & keyboard events //
                     items[i]->update(false);
                     if (items[i]->getFocused()) items[i]->setFocused(false);
@@ -905,6 +921,7 @@ void ofxDatGui::draw()
 {
     if (mVisible == false) return;
     ofPushStyle();
+
         ofFill();
         ofSetColor(mGuiBackground, mAlpha * 255);
         if (mExpanded == false){
@@ -912,10 +929,12 @@ void ofxDatGui::draw()
             mGuiFooter->draw();
         }   else{
             ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mHeight - mRowSpacing);
-            for (int i=0; i<items.size(); i++) items[i]->draw();
+            //for (int i=0; i<items.size(); i++) items[i]->draw();
+            for (int i=0; i<items.size(); i++) items[i]->drawTranslated(translationX, translationY);
         // color pickers overlap other components when expanded so they must be drawn last //
             for (int i=0; i<items.size(); i++) items[i]->drawColorPicker();
         }
+
     ofPopStyle();
 }
 
@@ -934,4 +953,165 @@ void ofxDatGui::onWindowResized(ofResizeEventArgs &e)
     if (mAnchor != ofxDatGuiAnchor::NO_ANCHOR) anchorGui();
 }
 
+void ofxDatGui::toggleMidiMode()
+{
+    for (int i=0; i<items.size(); i++) {
+        ofxDatGuiComponent * item = items[i];
+        if(item->children.size() > 0)
+        {
+            for(int j=0; j<item->children.size(); j++)
+            {
+                item->children[j]->toggleMidiMode();
+            }
+        } else {
+            item->toggleMidiMode();
+        }
+    }
+}
 
+
+void ofxDatGui::resetMidiMap()
+{
+    for (int i=0; i<items.size(); i++) {
+        ofxDatGuiComponent * item = items[i];
+        if(item->children.size() > 0)
+        {
+            for(int j=0; j<item->children.size(); j++)
+            {
+                item->children[j]->toggleMidiMap(false);
+            }
+        } else {
+            item->toggleMidiMode();
+            item->toggleMidiMap(false);
+        }
+    }
+}
+
+void ofxDatGui::deleteItems()
+{
+    items.clear();
+}
+
+vector<ofxDatGuiComponent*> ofxDatGui::getItems()
+{
+    return items;
+}
+
+ofxDatGuiComponent * ofxDatGui::getInputComponent(int x, int y)
+{
+    ofPoint pos(-1, -1);
+    for (int i=0; i<items.size(); i++) {
+        ofxDatGuiComponent * item = items[i];
+        if(item->children.size() > 0)
+        {
+            for(int j=0; j<item->children.size(); j++)
+            {
+                if( item->children[j]->getInputSelected(x, y) != nullptr)
+                {
+                    return item->children[j]->getInputSelected(x, y);
+                }
+                
+            }
+        } else {
+            if(item->getInputSelected(x, y) != nullptr)
+            {
+                return item->getInputSelected(x, y);
+            }
+            
+        }
+    }
+    
+    return nullptr;
+}
+
+
+ofxDatGuiComponent * ofxDatGui::getOutputComponent(int x, int y)
+{
+    for (int i=0; i<items.size(); i++) {
+        ofxDatGuiComponent * item = items[i];
+        if(item->children.size() > 0)
+        {
+            for(int j=0; j<item->children.size(); j++)
+            {
+                if( item->children[j]->getOutputSelected(x, y) != nullptr)
+                {
+                    return item->children[j]->getOutputSelected(x, y);
+                }
+                
+            }
+        } else {
+            if(item->getOutputSelected(x, y) != nullptr)
+            {
+                return item->getOutputSelected(x, y);
+            }
+            
+        }
+    }
+    
+    return nullptr;
+}
+
+WireConnection * ofxDatGui::testInputConnection(int x, int y)
+{
+    for (int i=0; i<items.size(); i++) {
+        ofxDatGuiComponent * item = items[i];
+        if(item->children.size() > 0)
+        {
+            for(int j=0; j<item->children.size(); j++)
+            {
+                if( item->children[j]->getInputConnection(x, y) != nullptr)
+                {
+                    return item->children[j]->inputConnection->testWireConnection(x, y);
+                }
+                
+            }
+        } else {
+            if(item->getInputConnection(x, y) != nullptr)
+            {
+                return item->inputConnection->testWireConnection(x, y);
+            }
+            
+        }
+    }
+    
+    return nullptr;
+}
+
+WireConnection * ofxDatGui::testOutputConnection(int x, int y)
+{
+    for (int i=0; i<items.size(); i++) {
+        ofxDatGuiComponent * item = items[i];
+        if(item->children.size() > 0)
+        {
+            for(int j=0; j<item->children.size(); j++)
+            {
+                if( item->children[j]->getOutputConnection(x, y) != nullptr)
+                {
+                    return item->children[j]->outputConnection->testWireConnection(x, y);
+                }
+                
+            }
+        } else {
+            if(item->getOutputConnection(x, y) != nullptr)
+            {
+                return item->outputConnection->testWireConnection(x, y);
+            }
+            
+        }
+    }
+    
+    return nullptr;
+    
+}
+
+void ofxDatGui::setItems(vector<ofxDatGuiComponent *> newItems)
+{
+    items.clear();
+    items = newItems;
+}
+
+void ofxDatGui::setTranslation(float x, float y)
+{
+    translationX = x;
+    translationY = y;
+}
