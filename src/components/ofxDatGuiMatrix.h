@@ -164,10 +164,6 @@ public:
         setWidth(theme->layout.width, theme->layout.labelWidth);
     }
     
-    void addBtn()
-    {
-        mNumButtons++;
-    }
     void setWidth(int width, float labelWidth)
     {
         ofxDatGuiComponent::setWidth(width, labelWidth);
@@ -200,8 +196,6 @@ public:
     
     bool hitTest(ofPoint m)
     {
-        //m.x -= tx;
-        //m.y -= ty;
         if (mMatrixRect.inside(m)){
             for(int i=0; i<btns.size(); i++) btns[i].hitTest(m, mMouseDown);
             return true;
@@ -215,7 +209,7 @@ public:
     {
         if (!mVisible) return;
         ofPushStyle();
-        //ofxDatGuiComponent::draw();
+        ofxDatGuiComponent::draw();
         ofSetColor(mFillColor);
         ofDrawRectangle(mMatrixRect);
         for(int i=0; i<btns.size(); i++) btns[i].draw(x+mLabel.width, y);

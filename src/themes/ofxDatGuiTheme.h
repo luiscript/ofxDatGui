@@ -174,13 +174,13 @@ class ofxDatGuiTheme{
         
         // general rules that are shared by all components //
             float width = 600.0f;
-            float height = 35.0f;
+            float height = 32.0f;
             float padding = 2.0f;
             float vMargin = 0.0f; // vertical spacing between gui components //
             float iconSize = 10.0f;
-            float labelWidth = 150.0f;
-            float labelMargin = 5.0f;
-            float breakHeight = 3.0f;
+            float labelWidth = 200.0f;
+            float labelMargin = 3.0f;
+            float breakHeight = 1.0f;
             bool upperCaseLabels = false;
             
         // component specific rules & settings //
@@ -208,7 +208,7 @@ class ofxDatGuiTheme{
         
             struct {
                 int height = 82;
-                int buttonSize = 23;
+                int buttonSize = 20;
                 int buttonPadding = 1;
             } matrix;
             

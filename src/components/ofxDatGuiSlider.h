@@ -23,7 +23,6 @@
 #pragma once
 #include "ofxDatGuiComponent.h"
 #include "ofxDatGuiTextInputField.h"
-#include "ofxSvg.h"
 
 class ofxDatGuiSlider : public ofxDatGuiComponent {
 
@@ -31,7 +30,8 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         ofxDatGuiSlider(string label, float min, float max, double val) : ofxDatGuiComponent(label)
         {
-            svg.load("svg/gui/inputBlue.svg");
+            connectionImage.load("gui/connectionBlue.png");
+            connectionImage.resize(24,24);
             mMin = min;
             mMax = max;
             setPrecision(2);
@@ -46,7 +46,8 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         ofxDatGuiSlider(string label, float min, float max, string type) : ofxDatGuiComponent(label)
         {
-            svg.load("svg/gui/inputBlue.svg");
+            connectionImage.load("gui/connectionBlue.png");
+            connectionImage.resize(24,24);
             mMin = min;
             mMax = max;
             setPrecision(2);
@@ -58,23 +59,24 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         }
     
         ofxDatGuiSlider(string label, float min, float max) : ofxDatGuiSlider(label, min, max, (max+min)/2) {
-            svg.load("svg/gui/inputBlue.svg");
+            connectionImage.load("gui/connectionBlue.png");
+            connectionImage.resize(24,24);
         }
         ofxDatGuiSlider(ofParameter<int> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) {
             mParamI = &p;
             setPrecision(0);
             calculateScale();
             mParamI->addListener(this, &ofxDatGuiSlider::onParamI);
-            svg.load("svg/gui/inputBlue.svg");
+            connectionImage.load("gui/connectionBlue.png");
+            connectionImage.resize(24,24);
         }
         ofxDatGuiSlider(ofParameter<float> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) {
             mParamF = &p;
             setPrecision(2);
             calculateScale();
             mParamF->addListener(this, &ofxDatGuiSlider::onParamF);
-            
-            svg.load("svg/gui/inputBlue.svg");
-
+            connectionImage.load("gui/connectionBlue.png");
+            connectionImage.resize(24,24);
         }
     
         ~ofxDatGuiSlider()
@@ -110,13 +112,13 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             mInput->setPosition(x + mInputX, y + mStyle.padding);
             
             ofPoint p1;
-            p1.x = (int) x - 25;
-            p1.y = (int) y+mStyle.padding + 17;
+            p1.x = (int) x - 20;
+            p1.y = (int) y+mStyle.padding + 1;
             inputConnection->setup(p1, this->getName());
             
             ofPoint p2;
-            p2.x = (int) x+mLabel.width + mSliderWidth + mInput->getWidth() + 30;
-            p2.y = (int) y+mStyle.padding + 17;
+            p2.x = (int) x+mLabel.width + mSliderWidth + mInput->getWidth() + 22;
+            p2.y = (int) y+mStyle.padding + 13;
             outputConnection->setup(p2, this->getName());
             
             inputConnection->setScale(&mScale);
@@ -201,7 +203,6 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     
         void setComponentScale(double scale)
         {
-           // mScale = inputConnection->getInputScale() != nullptr ? *(inputConnection->getInputScale()) : scale;
             mScale = scale;
             if(mBoundi != nullptr) {
                 int sc = ((mMax-mMin) * mScale) + mMin;
@@ -294,9 +295,6 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
             
                 if(getMidiMode())
                 {
-                    //ofSetColor(getMidiMap() ? ofColor(0, 180) : ofColor(0,217,72, 128));
-                    //ofSetColor(getMidiMap() ? ofColor(0,217,72, 128) : ofColor(0, 200));
-                    
                     ofSetColor(getMidiMap() ? ofColor(70, 128) : ofColor(0, 200));
                     ofDrawRectangle(x+mLabel.width, y+mStyle.padding, mSliderWidth, mStyle.height-(mStyle.padding*2));
                     
@@ -306,27 +304,15 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
                     mFont->draw(mappingString, x+mLabel.width + 5, y+mStyle.padding + mStyle.height/2 + 2);
                     
                     ofPushMatrix();
-                    //ofTranslate(x+mLabel.width - 35.0, y+mStyle.padding + 2);
-                    //ofTranslate(x+mLabel.width + mSliderWidth + mInput->getWidth()/4 - 10, y+mStyle.padding + 2);
-                    ofTranslate(x - 40, y+mStyle.padding + 2);
-                    svg.draw();
+
+                    connectionImage.draw(x-29, y+mStyle.padding + 1);
                     ofPopMatrix();
                     
                     ofPushMatrix();
-                    ofTranslate(x+mLabel.width + mSliderWidth + mInput->getWidth() + 15, y+mStyle.padding + 2);
-                    svg.draw();
+                    connectionImage.draw(x+mLabel.width + mSliderWidth + mInput->getWidth() + 10, y+mStyle.padding + 1);
                     ofPopMatrix();
                     
                 }
-
-            
-//            ofSetColor(255,0,0);
-//            ofDrawCircle(outputPosition.x, outputPosition.y, 10);
-//            
-//            
-//            ofSetColor(0,0,255);
-//            ofDrawCircle(inputPosition.x, inputPosition.y, 10);
-            
             
             ofPopStyle();
         }
@@ -423,7 +409,7 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
     private:
     
         string  inputType;
-        ofxSVG  svg;
+    
         float   mMin;
         float   mMax;
         double  mValue;
@@ -436,6 +422,8 @@ class ofxDatGuiSlider : public ofxDatGuiComponent {
         ofColor mSliderFill;
         ofColor mBackgroundFill;
         ofxDatGuiTextInputField* mInput;
+    
+        ofImage connectionImage;
     
         static const int MAX_PRECISION = 4;
     
