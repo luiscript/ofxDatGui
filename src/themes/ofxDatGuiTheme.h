@@ -86,12 +86,12 @@ class ofxDatGuiTheme{
             ofColor guiBackground = ofColor::fromHex(0x303030);
         
         // general colors that are shared by all components //
-            ofColor label = ofColor::fromHex(0xEEEEEE);
-            ofColor icons = ofColor::fromHex(0xEEEEEE);
-            ofColor background = ofColor::fromHex(0x1A1A1A);
-            ofColor backgroundOnMouseOver = ofColor::fromHex(0x777777);
-            ofColor backgroundOnMouseDown = ofColor::fromHex(0x222222);
-            ofColor inputAreaBackground = ofColor::fromHex(0x303030);
+            ofColor label = ofColor::fromHex(0x9C9DA1);
+            ofColor icons = ofColor::fromHex(0x9C9DA1);
+            ofColor background = ofColor::fromHex(0x28292E);
+            ofColor backgroundOnMouseOver = ofColor::fromHex(0x42424A);
+            ofColor backgroundOnMouseDown = ofColor::fromHex(0x1D1E22);
+            ofColor inputAreaBackground = ofColor::fromHex(0x42424A);
             
         // component specific colors //
             struct {

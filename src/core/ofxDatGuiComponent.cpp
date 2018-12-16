@@ -597,12 +597,12 @@ WireConnection * ofxDatGuiComponent::getOutputConnection(int x, int y)
     return dist < 15.0 ? outputConnection : nullptr;
 }
 
-//ofPoint ofxDatGuiComponent::getInput()
-//{
-//    return 0;
-//}
-//
-//ofPoint ofxDatGuiComponent::getOutput()
-//{
-//    return 0;
-//}
+ofPoint ofxDatGuiComponent::getInput()
+{
+    return outputConnection->getWireConnectionPos();
+}
+
+ofPoint ofxDatGuiComponent::getOutput()
+{
+    return inputConnection->getWireConnectionPos();
+}
