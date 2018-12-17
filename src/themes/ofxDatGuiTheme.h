@@ -95,14 +95,14 @@ class ofxDatGuiTheme{
             
         // component specific colors //
             struct {
-                ofColor fill = ofColor::fromHex(0x2FA1D6);
-                ofColor text = ofColor::fromHex(0x2FA1D6);
+                ofColor fill = ofColor::fromHex(0xF4BF39);
+                ofColor text = ofColor::fromHex(0x9C9DA1);
             } slider;
             
             struct {
-                ofColor text = ofColor::fromHex(0x00FF00);
-                ofColor highlight = ofColor::fromHex(0x688EB5);
-                ofColor backgroundOnActive = ofColor::fromHex(0x777777);
+                ofColor text = ofColor::fromHex(0x9C9DA1);
+                ofColor highlight = ofColor::fromHex(0x28292E);
+                ofColor backgroundOnActive = ofColor::fromHex(0x1D1E22);
             } textInput;
             
             struct {
@@ -142,7 +142,7 @@ class ofxDatGuiTheme{
     
         struct {
             int width = 2.0f;
-            bool visible = true;
+            bool visible = false;
             ofColor label = ofColor::fromHex(0xEEEEEE);
             ofColor button = ofColor::fromHex(0xFFD00B);
             ofColor toggle = ofColor::fromHex(0xFFD00B);
