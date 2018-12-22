@@ -39,7 +39,7 @@ public:
         mInput->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
         setTheme(ofxDatGuiComponent::getTheme());
         setValue(val);
-        
+        setWireConnectionType();
     }
     
     ofxDatGuiSlider(string label, float min, float max, string type) : ofxDatGuiComponent(label)
@@ -52,6 +52,7 @@ public:
         mInput->setTextInputFieldType(ofxDatGuiInputType::NUMERIC);
         mInput->onInternalEvent(this, &ofxDatGuiSlider::onInputChanged);
         setTheme(ofxDatGuiComponent::getTheme());
+        setWireConnectionType();
     }
     
     ofxDatGuiSlider(string label, float min, float max) : ofxDatGuiSlider(label, min, max, (max+min)/2) {
@@ -61,12 +62,14 @@ public:
         setPrecision(0);
         calculateScale();
         mParamI->addListener(this, &ofxDatGuiSlider::onParamI);
+        setWireConnectionType();
     }
     ofxDatGuiSlider(ofParameter<float> & p) : ofxDatGuiSlider(p.getName(), p.getMin(), p.getMax(), p.get()) {
         mParamF = &p;
         setPrecision(2);
         calculateScale();
         mParamF->addListener(this, &ofxDatGuiSlider::onParamF);
+        setWireConnectionType();
     }
     
     ~ofxDatGuiSlider()
@@ -74,6 +77,11 @@ public:
         delete mInput;
     }
     
+    void setWireConnectionType()
+    {
+        inputConnection->setWireConnectionType(ConnectionType::DK_SCALE);
+        outputConnection->setWireConnectionType(ConnectionType::DK_SCALE);
+    }
     void setTheme(const ofxDatGuiTheme* theme)
     {
         setComponentStyle(theme);
@@ -281,7 +289,6 @@ public:
         mInput->draw();
         // numeric input field //
         
-        
         if(getMidiMode())
         {
             ofSetColor(getMidiMap() ? ofColor(70, 128) : ofColor(0, 200));
@@ -292,14 +299,8 @@ public:
             
             mFont->draw(mappingString, x+mLabel.width + 5, y+mStyle.padding + mStyle.height/2 + 2);
             
-            ofPushMatrix();
-            ofSetColor(255);
-            ofDrawCircle(x-20, y+mStyle.padding + 15, 10);
-            ofDrawCircle(x+mLabel.width + mSliderWidth + mInput->getWidth() + 25, y+mStyle.padding + 15, 10);
-            ofSetColor(0);
-            ofDrawCircle(x-20, y+mStyle.padding + 15, 6);
-            ofDrawCircle(x+mLabel.width + mSliderWidth + mInput->getWidth() + 25, y+mStyle.padding + 15, 6);
-            ofPopMatrix();
+            outputConnection->draw();
+            inputConnection->draw();
             
         }
         
@@ -411,9 +412,7 @@ private:
     ofColor mSliderFill;
     ofColor mBackgroundFill;
     ofxDatGuiTextInputField* mInput;
-    
-    ofImage connectionImage;
-    
+        
     static const int MAX_PRECISION = 4;
     
     int*    mBoundi = nullptr;
