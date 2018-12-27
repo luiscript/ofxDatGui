@@ -79,8 +79,8 @@ public:
     
     void setWireConnectionType()
     {
-        inputConnection->setWireConnectionType(ConnectionType::DK_SCALE);
-        outputConnection->setWireConnectionType(ConnectionType::DK_SCALE);
+        inputConnection->setWireConnectionType(ConnectionType::DK_SLIDER);
+        outputConnection->setWireConnectionType(ConnectionType::DK_SLIDER);
     }
     void setTheme(const ofxDatGuiTheme* theme)
     {
