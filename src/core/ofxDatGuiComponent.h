@@ -113,7 +113,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
 
         static const ofxDatGuiTheme* getTheme();
     
-        void toggleMidiMode();
+        ofxDatGuiComponent * toggleMidiMode();
         void toggleMidiMap(bool);
         bool getMidiMode();
         bool getMidiMap();

@@ -530,8 +530,9 @@ void ofxDatGuiComponent::onWindowResized(ofResizeEventArgs &e)
     onWindowResized();
 }
 
-void ofxDatGuiComponent::toggleMidiMode(){
+ofxDatGuiComponent * ofxDatGuiComponent::toggleMidiMode(){
     midiMode = !midiMode;
+    return this;
 }
 
 bool ofxDatGuiComponent::getMidiMode()
