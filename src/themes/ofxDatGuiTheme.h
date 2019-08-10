@@ -49,7 +49,7 @@ class ofxDatGuiTheme{
         void init()
         {
             if (ofxDatGuiIsRetina()){
-                font.size *=2.5;
+                font.size *=2.0;
                 stripe.width *=1.5;
                 //layout.width *=1.5;
                 //layout.height *=1.5;
@@ -173,12 +173,12 @@ class ofxDatGuiTheme{
         struct {
         
         // general rules that are shared by all components //
-            float width = 600.0f;
-            float height = 35.0f;
+            float width = 400.0f;
+            float height = 25.0f;
             float padding = 2.0f;
             float vMargin = 0.0f; // vertical spacing between gui components //
             float iconSize = 10.0f;
-            float labelWidth = 150.0f;
+            float labelWidth = 130.0f;
             float labelMargin = 5.0f;
             float breakHeight = 3.0f;
             bool upperCaseLabels = false;
@@ -195,7 +195,7 @@ class ofxDatGuiTheme{
             } colorPicker;
         
             struct {
-                int height = 82;
+                int height = 60;
                 int ballSize = 5;
                 int lineWeight = 1;
             } pad2d;
@@ -207,8 +207,8 @@ class ofxDatGuiTheme{
             } graph;
         
             struct {
-                int height = 82;
-                int buttonSize = 23;
+                int height = 40;
+                int buttonSize = 15;
                 int buttonPadding = 1;
             } matrix;
             
