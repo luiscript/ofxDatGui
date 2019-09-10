@@ -110,13 +110,13 @@ public:
         mInput->setPosition(x + mInputX, y + mStyle.padding);
         
         ofPoint p1;
-        p1.x = (int) x - 20;
-        p1.y = (int) y+mStyle.padding + 15;
+        p1.x = (int) x - 17;
+        p1.y = (int) y+mStyle.padding + 10;
         inputConnection->setup(p1, this->getName());
         
         ofPoint p2;
-        p2.x = (int) x+mLabel.width + mSliderWidth + mInput->getWidth() + 25;
-        p2.y = (int) y+mStyle.padding + 15;
+        p2.x = (int) x+mLabel.width + mSliderWidth + mInput->getWidth() + 24;
+        p2.y = (int) y+mStyle.padding + 10;
         outputConnection->setup(p2, this->getName());
         
         inputConnection->setScale(&mScale);

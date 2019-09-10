@@ -221,8 +221,8 @@ class ofxDatGuiTheme{
         static string AssetPath;
     
         struct {
-            int size = 7;
-            string file = AssetPath + "ofxbraitsch/fonts/Roboto-Thin.ttf";
+            int size = 8;
+            string file = AssetPath + "ofxbraitsch/fonts/Verdana.ttf";
             shared_ptr<ofxSmartFont> ptr;
         } font;
     
