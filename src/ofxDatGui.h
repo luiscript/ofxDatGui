@@ -50,7 +50,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         void setTheme(ofxDatGuiTheme* t, bool applyImmediately = false);
         void setAutoDraw(bool autodraw, int priority = 0);
         void setLabelAlignment(ofxDatGuiAlignment align);
-        void setTranslation(float, float);
+        void setTranslation(float, float, float);
         static void setAssetPath(string path);
         static string getAssetPath();
     
@@ -112,7 +112,7 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiValuePlotter* getValuePlotter(string label, string folder = "");
         ofxDatGuiFolder* getFolder(string label);
         ofxDatGuiDropdown* getDropdown(string label);
-     float translationX;
+		
     private:
     
         int mIndex;
@@ -133,6 +133,8 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         bool mAlignmentChanged;
     
         float translationY;
+		float translationX;
+		float zoom;
     
     
         ofColor mGuiBackground;

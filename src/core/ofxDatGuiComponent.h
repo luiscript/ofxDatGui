@@ -84,7 +84,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         WireConnection * getOutputConnection(int, int);
     
         virtual void draw();
-        void drawTranslated(float, float);
+        void drawTranslated(float, float, float);
         void drawTranslated();
         virtual void update(bool acceptEvents = true);
         virtual bool hitTest(ofPoint m);
@@ -126,6 +126,7 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
     
         float tx;
         float ty;
+		float zm;
     protected:
     
         int x;

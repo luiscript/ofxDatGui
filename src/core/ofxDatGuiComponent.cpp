@@ -48,6 +48,7 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
     
     tx = 0;
     ty = 0;
+	zm = 1.0;
 }
 
 ofxDatGuiComponent::~ofxDatGuiComponent()
@@ -363,8 +364,8 @@ void ofxDatGuiComponent::update(bool acceptEvents)
         bool mp = ofGetMousePressed();
         ofPoint mouse = ofPoint(ofGetMouseX() - mMask.x, ofGetMouseY() - mMask.y);
         
-        mouse.x = mouse.x - tx;
-        mouse.y = mouse.y - ty;
+        mouse.x = (mouse.x - tx)/zm;
+        mouse.y = (mouse.y - ty)/zm;
         
         if (hitTest(mouse)){
             if (!mMouseOver){
@@ -413,14 +414,18 @@ void ofxDatGuiComponent::draw()
     ofPopStyle();
 }
 
-void ofxDatGuiComponent::drawTranslated(float transX, float transY)
+void ofxDatGuiComponent::drawTranslated(float transX, float transY, float zoom)
 {
     tx = transX;
     ty = transY;
+	zm = zoom;
     if (this->getIsExpanded()) {
         for(int i=0; i<children.size(); i++) {
+			//children[i]->x = (children[i]->x - transX) / zm;
+			//children[i]->y = (children[i]->y - transY) / zm;
             children[i]->tx = transX;
             children[i]->ty = transY;
+			children[i]->zm = zoom;
         }
     }
     draw();

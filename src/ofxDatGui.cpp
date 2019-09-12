@@ -31,6 +31,7 @@ ofxDatGui::ofxDatGui(int x, int y)
     mPosition.y = y;
     translationX = 0;
     translationY = 0;
+	zoom = 1.0;
     mAnchor = ofxDatGuiAnchor::NO_ANCHOR;
     init();
 }
@@ -39,6 +40,7 @@ ofxDatGui::ofxDatGui(ofxDatGuiAnchor anchor)
 {
     translationX = 0;
     translationY = 0;
+	zoom = 1.0;
     init();
     mAnchor = anchor;
     anchorGui();
@@ -855,8 +857,8 @@ void ofxDatGui::update()
     // check for gui focus change //
     if (ofGetMousePressed() && mActiveGui->mMoving == false){
         ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-        mouse.x -= translationX;
-        mouse.y -= translationY;
+        mouse.x = (mouse.x - translationX)/zoom;
+        mouse.y = (mouse.y - translationY)/zoom;
         for (int i=mGuis.size()-1; i>-1; i--){
         // ignore guis that are invisible //
             if (mGuis[i]->getVisible() && mGuis[i]->hitTest(mouse)){
@@ -888,8 +890,8 @@ void ofxDatGui::update()
                     // track that we're moving to force preserve focus //
                             mMoving = true;
                             ofPoint mouse = ofPoint(ofGetMouseX(), ofGetMouseY());
-                            mouse.x -= translationX;
-                            mouse.y -= translationY;
+                            mouse.x = (mouse.x - translationX)/zoom;
+                            mouse.y = (mouse.y - translationY)/zoom;
                             moveGui(mouse - mGuiHeader->getDragOffset());
                         }
                     }
@@ -930,7 +932,7 @@ void ofxDatGui::draw()
         }   else{
             ofDrawRectangle(mPosition.x, mPosition.y, mWidth, mHeight - mRowSpacing);
             //for (int i=0; i<items.size(); i++) items[i]->draw();
-            for (int i=0; i<items.size(); i++) items[i]->drawTranslated(translationX, translationY);
+            for (int i=0; i<items.size(); i++) items[i]->drawTranslated(translationX, translationY, zoom);
         // color pickers overlap other components when expanded so they must be drawn last //
             for (int i=0; i<items.size(); i++) items[i]->drawColorPicker();
         }
@@ -1110,8 +1112,9 @@ void ofxDatGui::setItems(vector<ofxDatGuiComponent *> newItems)
     items = newItems;
 }
 
-void ofxDatGui::setTranslation(float x, float y)
+void ofxDatGui::setTranslation(float x, float y, float zm)
 {
     translationX = x;
     translationY = y;
+	zoom = zm;
 }
