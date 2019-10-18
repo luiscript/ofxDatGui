@@ -24,6 +24,8 @@
 #pragma once
 #include "ofTrueTypeFont.h"
 
+using namespace std;
+
 class ofxSmartFont {
 
     public:
