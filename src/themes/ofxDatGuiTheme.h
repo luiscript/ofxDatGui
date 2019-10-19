@@ -48,26 +48,31 @@ class ofxDatGuiTheme{
     
         void init()
         {
-            if (ofxDatGuiIsRetina()){
-                font.size *=2.0;
-                stripe.width *=1.5;
-                //layout.width *=1.5;
-                //layout.height *=1.5;
-                layout.padding *=1.5;
-                layout.vMargin *=1.5;
-                layout.iconSize *=1.5;
-                layout.labelWidth *=1.5;
-                layout.labelMargin *=1.5;
-                layout.graph.height *=1.5;
-                layout.pad2d.height *=1.5;
-                layout.pad2d.ballSize *=1.5;
-                layout.pad2d.lineWeight *=1.5;
-                layout.matrix.height *=1.5;
-                layout.matrix.buttonSize *=1.5;
-                layout.matrix.buttonPadding *=1.5;
-                layout.colorPicker.rainbowWidth *=1.5;
-                layout.textInput.highlightPadding *=1.5;
-            }
+            float scaleRatio = (float) ofGetScreenWidth() / ofGetWidth();
+            float scale = 0.8;
+            if(scaleRatio > 1) scale = 1.5;
+            if(scaleRatio < 1) scale = 0.8;
+            if(scaleRatio == 1) scale = 1.0;
+            
+            font.size *=scale;
+            stripe.width *=scale;
+            //layout.width *=scale;
+            //layout.height *=scale;
+            layout.padding *=scale;
+            layout.vMargin *=scale;
+            layout.iconSize *=scale;
+            layout.labelWidth *=scale;
+            layout.labelMargin *=scale;
+            layout.graph.height *=scale;
+            layout.pad2d.height *=scale;
+            layout.pad2d.ballSize *=scale;
+            layout.pad2d.lineWeight *=scale;
+            layout.matrix.height *=scale;
+            //layout.matrix.buttonSize *=scale;
+            layout.matrix.buttonPadding *=scale;
+            layout.colorPicker.rainbowWidth *=scale;
+            layout.textInput.highlightPadding *=scale;
+            
             icon.radioOn->load(icon.radioOnPath);
             icon.radioOff->load(icon.radioOffPath);
             icon.groupOpen->load(icon.groupOpenPath);
@@ -208,7 +213,7 @@ class ofxDatGuiTheme{
         
             struct {
                 int height = 40;
-                int buttonSize = 15;
+                int buttonSize = 30;
                 int buttonPadding = 1;
             } matrix;
             
@@ -221,7 +226,7 @@ class ofxDatGuiTheme{
         static string AssetPath;
     
         struct {
-            int size = 5;
+            int size = 15;
             string file = AssetPath + "ofxbraitsch/fonts/Verdana.ttf";
             shared_ptr<ofxSmartFont> ptr;
         } font;
