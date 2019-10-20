@@ -52,7 +52,7 @@ class ofxDatGuiTheme{
             float scale = 0.8;
             if(scaleRatio > 1) scale = 1.5;
             if(scaleRatio < 1) scale = 0.8;
-            if(scaleRatio == 1) scale = 1.0;
+            if(scaleRatio == 1) scale = 0.7;
             
             font.size *=scale;
             stripe.width *=scale;
@@ -67,9 +67,9 @@ class ofxDatGuiTheme{
             layout.pad2d.height *=scale;
             layout.pad2d.ballSize *=scale;
             layout.pad2d.lineWeight *=scale;
-            layout.matrix.height *=scale;
+            //layout.matrix.height *=scale;
             //layout.matrix.buttonSize *=scale;
-            layout.matrix.buttonPadding *=scale;
+            //layout.matrix.buttonPadding *=scale;
             layout.colorPicker.rainbowWidth *=scale;
             layout.textInput.highlightPadding *=scale;
             
@@ -212,9 +212,9 @@ class ofxDatGuiTheme{
             } graph;
         
             struct {
-                int height = 40;
-                int buttonSize = 30;
-                int buttonPadding = 1;
+                int height = 30;
+                int buttonSize = 25;
+                int buttonPadding = 0.5;
             } matrix;
             
         } layout;
