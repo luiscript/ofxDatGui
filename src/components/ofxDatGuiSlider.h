@@ -110,12 +110,12 @@ public:
         mInput->setPosition(x + mInputX, y + mStyle.padding);
         
         ofPoint p1;
-        p1.x = (int) x - 17;
+        p1.x = (int) x - 12;
         p1.y = (int) y+mStyle.padding + 10;
         inputConnection->setup(p1, this->getName());
         
         ofPoint p2;
-        p2.x = (int) x+mLabel.width + mSliderWidth + mInput->getWidth() + 24;
+        p2.x = (int) x+mLabel.width + mSliderWidth + mInput->getWidth() + 15;
         p2.y = (int) y+mStyle.padding + 10;
         outputConnection->setup(p2, this->getName());
         
@@ -291,12 +291,13 @@ public:
         
         if(getMidiMode())
         {
-            ofSetColor(getMidiMap() ? ofColor(70, 128) : ofColor(0, 200));
+            /*ofSetColor(getMidiMap() ? ofColor(70, 128) : ofColor(0, 200));
             ofDrawRectangle(x+mLabel.width, y+mStyle.padding, mSliderWidth, mStyle.height-(mStyle.padding*2));
             
             ofDrawRectangle(x+mLabel.width + mSliderWidth+(mStyle.padding), y+mStyle.padding, mInput->getWidth(), mStyle.height-(mStyle.padding*2));
             ofSetColor(ofColor(255));
-            
+            */
+
             mFont->draw(mappingString, x+mLabel.width + 5, y+mStyle.padding + mStyle.height/2 + 2);
             
             outputConnection->draw();
