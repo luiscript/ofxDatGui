@@ -48,12 +48,8 @@ class ofxDatGuiTheme{
     
         void init()
         {
-            float scaleRatio = (float) ofGetScreenWidth() / ofGetWidth();
             float scale = 0.8;
-            if(scaleRatio > 1) scale = 1.5;
-            if(scaleRatio < 1) scale = 0.8;
-            if(scaleRatio == 1) scale = 0.7;
-            
+
             font.size *=scale;
             stripe.width *=scale;
             //layout.width *=scale;
