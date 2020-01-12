@@ -48,7 +48,7 @@ class ofxDatGuiTheme{
     
         void init()
         {
-            float scale = 0.8;
+            float scale = 1.0;
 
             font.size *=scale;
             stripe.width *=scale;
@@ -97,6 +97,7 @@ class ofxDatGuiTheme{
         // component specific colors //
             struct {
                 ofColor fill = ofColor::fromHex(0xF4BF39);
+                //ofColor fill = ofColor::fromHex(0xFCFCFC);
                 ofColor text = ofColor::fromHex(0x9C9DA1);
             } slider;
             
@@ -174,12 +175,12 @@ class ofxDatGuiTheme{
         struct {
         
         // general rules that are shared by all components //
-            float width = 400.0f;
-            float height = 25.0f;
-            float padding = 2.0f;
+            float width = 300.0f;
+            float height = 22.0f;
+            float padding = 1.0f;
             float vMargin = 0.0f; // vertical spacing between gui components //
             float iconSize = 10.0f;
-            float labelWidth = 130.0f;
+            float labelWidth = 0.0f;//130.0f;
             float labelMargin = 5.0f;
             float breakHeight = 3.0f;
             bool upperCaseLabels = false;
@@ -222,8 +223,9 @@ class ofxDatGuiTheme{
         static string AssetPath;
     
         struct {
-            int size = 15;
-            string file = AssetPath + "ofxbraitsch/fonts/Verdana.ttf";
+            int size = 12;
+            //string file = AssetPath + "ofxbraitsch/fonts/verdana.ttf";
+            string file = AssetPath + "ofxbraitsch/fonts/HelveticaNeueLTStd-Md.otf";
             shared_ptr<ofxSmartFont> ptr;
         } font;
     

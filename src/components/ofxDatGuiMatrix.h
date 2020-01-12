@@ -218,6 +218,7 @@ public:
         //ofxDatGuiComponent::draw();
         ofSetColor(mFillColor);
         ofDrawRectangle(mMatrixRect);
+        drawLabel();
         for(int i=0; i<btns.size(); i++) btns[i].draw(x+mLabel.width, y);
         ofPopStyle();
     }

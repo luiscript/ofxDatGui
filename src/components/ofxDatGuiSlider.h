@@ -79,8 +79,8 @@ public:
     
     void setWireConnectionType()
     {
-        inputConnection->setWireConnectionType(ConnectionType::DK_SLIDER);
-        outputConnection->setWireConnectionType(ConnectionType::DK_SLIDER);
+        inputConnection->setWireConnectionType(DKConnectionType::DK_SLIDER);
+        outputConnection->setWireConnectionType(DKConnectionType::DK_SLIDER);
     }
     void setTheme(const ofxDatGuiTheme* theme)
     {
@@ -96,12 +96,12 @@ public:
     void setWidth(int width, float labelWidth)
     {
         ofxDatGuiComponent::setWidth(width, labelWidth);
-        float totalWidth = mStyle.width - mLabel.width;
-        mSliderWidth = totalWidth * 0.70;
-        mInputX = mLabel.width + mSliderWidth + mStyle.padding;
+        float totalWidth = mStyle.width;
+        mSliderWidth = totalWidth - 80;
+        mInputX = mSliderWidth + mStyle.padding;
         mInputWidth = totalWidth - mSliderWidth - (mStyle.padding * 2);
         mInput->setWidth(mInputWidth);
-        mInput->setPosition(x + mInputX, y + mStyle.padding);
+        mInput->setPosition(x + mInputX, y);
     }
     
     void setPosition(int x, int y)
@@ -111,12 +111,12 @@ public:
         
         ofPoint p1;
         p1.x = (int) x - 12;
-        p1.y = (int) y+mStyle.padding + 10;
+        p1.y = (int) y+mStyle.padding + 11;
         inputConnection->setup(p1, this->getName());
         
         ofPoint p2;
-        p2.x = (int) x+mLabel.width + mSliderWidth + mInput->getWidth() + 15;
-        p2.y = (int) y+mStyle.padding + 10;
+        p2.x = (int) x+mSliderWidth + mInput->getWidth() + 15;
+        p2.y = (int) y+mStyle.padding + 11;
         outputConnection->setup(p2, this->getName());
         
         inputConnection->setScale(&mScale);
@@ -277,33 +277,36 @@ public:
         if (!mVisible) return;
         ofPushStyle();
         ofxDatGuiComponent::draw();
+        
         // slider bkgd //
         ofSetColor(mBackgroundFill);
-        ofDrawRectangle(x+mLabel.width, y+mStyle.padding, mSliderWidth, mStyle.height-(mStyle.padding*2));
+        ofDrawRectangle(x, y+mStyle.padding, mSliderWidth, mStyle.height-(mStyle.padding*2));
         // slider fill //
         if (mScale > 0){
             ofSetColor(mSliderFill);
-            ofDrawRectangle(x+mLabel.width, y+mStyle.padding, mSliderWidth*mScale, mStyle.height-(mStyle.padding*2));
+            ofDrawRectangle(x, y+mStyle.padding, mSliderWidth*mScale, mStyle.height-(mStyle.padding*2));
         }
+        
+
+        drawLabel();
         
         mInput->draw();
-        // numeric input field //
         
+        // numeric input field //
         if(getMidiMode())
         {
-            /*ofSetColor(getMidiMap() ? ofColor(70, 128) : ofColor(0, 200));
-            ofDrawRectangle(x+mLabel.width, y+mStyle.padding, mSliderWidth, mStyle.height-(mStyle.padding*2));
+            ofSetColor(getMidiMap() ? ofColor(70, 128) : ofColor(0, 200));
+            ofDrawRectangle(x, y+mStyle.padding, mSliderWidth, mStyle.height-(mStyle.padding*2));
             
-            ofDrawRectangle(x+mLabel.width + mSliderWidth+(mStyle.padding), y+mStyle.padding, mInput->getWidth(), mStyle.height-(mStyle.padding*2));
+            ofDrawRectangle(x + mSliderWidth+(mStyle.padding), y+mStyle.padding, mInput->getWidth(), mStyle.height-(mStyle.padding*2));
             ofSetColor(ofColor(255));
-            */
 
-            mFont->draw(mappingString, x+mLabel.width + 5, y+mStyle.padding + mStyle.height/2 + 2);
-            
-            outputConnection->draw();
-            inputConnection->draw();
-            
+            mFont->draw(mappingString, x + 5, y+mStyle.padding + mStyle.height/2 + 2);
+               
         }
+        
+        outputConnection->draw();
+        inputConnection->draw();
         
         ofPopStyle();
     }
@@ -312,7 +315,7 @@ public:
     {
         if (!mEnabled || !mVisible){
             return false;
-        }   else if (m.x>=x+mLabel.width && m.x<= x+mLabel.width+mSliderWidth && m.y>=y+mStyle.padding && m.y<= y+mStyle.height-mStyle.padding){
+        }   else if (m.x>=x && m.x<= x+mSliderWidth && m.y>=y+mStyle.padding && m.y<= y+mStyle.height-mStyle.padding){
             return true;
         }   else if (mInput->hitTest(m)){
             return true;
@@ -340,7 +343,7 @@ protected:
     void onMouseDrag(ofPoint m)
     {
         if (mFocused && mInput->hasFocus() == false){
-            float s = (m.x-x-mLabel.width)/mSliderWidth;
+            float s = (m.x-x)/mSliderWidth;
             if (s > .999) s = 1;
             if (s < .001) s = 0;
             // don't dispatch an event if scale hasn't changed //

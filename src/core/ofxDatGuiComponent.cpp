@@ -43,8 +43,8 @@ ofxDatGuiComponent::ofxDatGuiComponent(string label)
     midiMap = false;
     mappingString = "";
     
-    inputConnection = new WireConnection;
-    outputConnection = new WireConnection;
+    inputConnection = new DKWireConnection;
+    outputConnection = new DKWireConnection;
     
     tx = 0;
     ty = 0;
@@ -441,10 +441,14 @@ void ofxDatGuiComponent::drawBackground()
 void ofxDatGuiComponent::drawLabel()
 {
     ofSetColor(mLabel.color);
+    if(mType == ofxDatGuiType::SLIDER)
+    {
+        ofSetColor(15);
+    }
     if (mType != ofxDatGuiType::DROPDOWN_OPTION){
         mFont->draw(mLabel.rendered, x+mLabel.x, y+mStyle.height/2 + mLabel.rect.height/2);
     }   else{
-        mFont->draw("* "+mLabel.rendered, x+mLabel.x, y+mStyle.height/2 + mLabel.rect.height/2);
+        mFont->draw("* " + mLabel.rendered, x+mLabel.x, y+mStyle.height/2 + mLabel.rect.height/2);
     }
 }
 
@@ -589,14 +593,14 @@ ofxDatGuiComponent * ofxDatGuiComponent::getOutputSelected(int x, int y)
     return this;
 }
 
-WireConnection * ofxDatGuiComponent::getInputConnection(int x, int y)
+DKWireConnection * ofxDatGuiComponent::getInputConnection(int x, int y)
 {
     ofPoint pos = inputConnection->getWireConnectionPos();
     float dist = ofDist(pos.x, pos.y, x, y);
     return dist < 15 ? inputConnection : nullptr;
 }
 
-WireConnection * ofxDatGuiComponent::getOutputConnection(int x, int y)
+DKWireConnection * ofxDatGuiComponent::getOutputConnection(int x, int y)
 {
     ofPoint pos = outputConnection->getWireConnectionPos();
     float dist = ofDist(pos.x, pos.y, x, y);

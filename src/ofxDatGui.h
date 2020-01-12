@@ -23,7 +23,7 @@
 #pragma once
 #include "ofxDatGuiGroups.h"
 #include "ofxDatGuiControls.h"
-#include "wireConnection.hpp"
+#include "DKWireConnection.hpp"
 
 class ofxDatGui : public ofxDatGuiInteractiveObject
 {
@@ -62,8 +62,8 @@ class ofxDatGui : public ofxDatGuiInteractiveObject
         ofxDatGuiComponent * getInputComponent(int x, int y);
         ofxDatGuiComponent * getOutputComponent(int x, int y);
     
-        WireConnection * testInputConnection(int, int);
-        WireConnection * testOutputConnection(int,int);
+        DKWireConnection * testInputConnection(int, int);
+        DKWireConnection * testOutputConnection(int,int);
     
     
         int getWidth();

@@ -66,7 +66,7 @@ class ofxDatGuiTextInputField : public ofxDatGuiInteractiveObject{
         {
         // center the text //
             int tx = mInputRect.x + mInputRect.width / 2 - mTextRect.width / 2;
-            int ty = mInputRect.y + mInputRect.height / 2 + mTextRect.height / 2;
+            float ty = mInputRect.y + mInputRect.height / 2 + mTextRect.height / 2;
             ofPushStyle();
             // draw the input field background //
                 if (mFocused && mType != ofxDatGuiInputType::COLORPICKER){

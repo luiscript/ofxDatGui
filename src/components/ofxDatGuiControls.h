@@ -31,8 +31,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
         {
             mDraggable = draggable;
             setTheme(ofxDatGuiComponent::getTheme());
-            //inputPosition.x = getX() - 24;
-            //inputPosition.y = getY() + 15;
+
         }
     
         void setTheme(const ofxDatGuiTheme* theme)
@@ -40,7 +39,7 @@ class ofxDatGuiHeader : public ofxDatGuiButton {
             setComponentStyle(theme);
             mLabel.width = mStyle.width;
             mStyle.stripe.visible = false;
-            mStyle.height = mStyle.height * .8;
+            mStyle.height = mStyle.height;
             setLabelAlignment(ofxDatGuiAlignment::CENTER);
         }
     

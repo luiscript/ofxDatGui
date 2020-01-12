@@ -1053,7 +1053,7 @@ ofxDatGuiComponent * ofxDatGui::getOutputComponent(int x, int y)
     return nullptr;
 }
 
-WireConnection * ofxDatGui::testInputConnection(int x, int y)
+DKWireConnection * ofxDatGui::testInputConnection(int x, int y)
 {
     for (int i=0; i<items.size(); i++) {
         ofxDatGuiComponent * item = items[i];
@@ -1079,7 +1079,7 @@ WireConnection * ofxDatGui::testInputConnection(int x, int y)
     return nullptr;
 }
 
-WireConnection * ofxDatGui::testOutputConnection(int x, int y)
+DKWireConnection * ofxDatGui::testOutputConnection(int x, int y)
 {
     for (int i=0; i<items.size(); i++) {
         ofxDatGuiComponent * item = items[i];

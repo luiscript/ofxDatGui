@@ -22,7 +22,7 @@
 
 #pragma once
 #include "ofxDatGuiIntObject.h"
-#include "wireConnection.hpp"
+#include "DKWireConnection.hpp"
 
 class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
 {
@@ -77,11 +77,11 @@ class ofxDatGuiComponent : public ofxDatGuiInteractiveObject
         ofPoint getInput();
         ofPoint getOutput();
     
-        WireConnection * inputConnection;
-        WireConnection * outputConnection;
+        DKWireConnection * inputConnection;
+        DKWireConnection * outputConnection;
     
-        WireConnection * getInputConnection(int, int);
-        WireConnection * getOutputConnection(int, int);
+        DKWireConnection * getInputConnection(int, int);
+        DKWireConnection * getOutputConnection(int, int);
     
         virtual void draw();
         void drawTranslated(float, float, float);

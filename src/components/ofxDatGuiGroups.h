@@ -507,6 +507,7 @@ class ofxDatGuiDropdown : public ofxDatGuiGroup {
             if (dropdownEventCallback != nullptr) {
                 ofxDatGuiDropdownEvent e1(this, mIndex, mOption);
                 dropdownEventCallback(e1);
+                
             }   else{
                 ofxDatGuiLog::write(ofxDatGuiMsg::EVENT_HANDLER_NULL);
             }
